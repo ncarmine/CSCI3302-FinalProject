@@ -81,36 +81,49 @@ void loop() {
   switch(state){
     case DETECT:{
       ping = sparki.ping();
-    
-      if(ping > 15){
-        int lineLeft   = sparki.lineLeft();   // measure the left IR sensor
-        int lineCenter = sparki.lineCenter(); // measure the center IR sensor
-        int lineRight  = sparki.lineRight();  // measure the right IR sensor
+      int lineLeft   = sparki.lineLeft();   // measure the left IR sensor
+      int lineCenter = sparki.lineCenter(); // measure the center IR sensor
+      int lineRight  = sparki.lineRight();  // measure the right IR sensor
 
+      if ( lineCenter < threshold ) // if line is below left line sensor
+      {  
+        sparki.moveForward(); // move forward
+        phildotr=maxspeed;
+        phirdotr=maxspeed;
+      }
+      else{
         if ( lineLeft < threshold ) // if line is below left line sensor
         {  
           sparki.moveLeft(); // turn left
+          phildotr=-maxspeed;
+          phirdotr=maxspeed;
         }
+      
         if ( lineRight < threshold ) // if line is below right line sensor
         {  
           sparki.moveRight(); // turn right
+          phildotr=maxspeed;
+          phirdotr=-maxspeed;
         }
-        // if the center line sensor is the only one reading a line
-        if ( (lineCenter < threshold) && (lineLeft > threshold) && (lineRight > threshold) )
-        {
-          sparki.moveForward(); // move forward
-        }
-      } 
-       else{
-         if (Xg == 0 && Yg == 0){
-           state = DROP_OFF; 
+      }
+      if(ping != -1){
+        if(ping <= 15){
+          sparki.moveStop();
+          if(direction == "East"){
+            Xg = Xi + ((ping)/100)*cos(45); //servo angle is at 45 degrees
+            Yg = Yi - ((ping - 10)/100)*sin(45);
          }
-         else {
-           // Set Pokemon's Position
-           Yg = Xi + (ping*cos(45)/100.0); //servo angle is at 45 degrees
-           Xg = Yi + (ping*sin(45)/100.0);
-         //  state = DRIVE; 
+         if(direction == "South"){
+            Xg = Xi + ((ping-10)/100)*cos(45); //servo angle is at 45 degrees
+            Yg = Yi - ((ping)/100)*sin(45);
          }
+
+         // Set location on line where sparki stopped searching
+         Xline = Xi; 
+         Yline = Yi; 
+         Thetaline = Thetai;
+         state = DRIVE;
+        } 
       }
       break;
     }
