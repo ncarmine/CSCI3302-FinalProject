@@ -34,10 +34,21 @@ bool linewardBound = false;
 float ping; 
 
 // notes in the melody:
-int melody[] = { NOTE_C4, NOTE_G3,NOTE_G3, NOTE_A3, NOTE_G3,0, NOTE_B3, NOTE_C4 };
+int melody[] = {
+  NOTE_D4, NOTE_D4, NOTE_D4, NOTE_D4, 0,
+  NOTE_D4, NOTE_C4, NOTE_AS3, NOTE_F3, 0,
+  NOTE_AS3, NOTE_D4, NOTE_D4, NOTE_C4, NOTE_AS3, NOTE_C4, 0,
+  NOTE_AS3, NOTE_DS4, NOTE_DS4, NOTE_DS4, NOTE_F4, NOTE_D4, NOTE_C4, NOTE_AS3, 0,
+  NOTE_AS3, NOTE_D4, NOTE_D4, NOTE_C4, NOTE_AS3, NOTE_D4, 0
+};
 
-// note durations: 4 = quarter note, 8 = eighth note, etc.:
-int noteDurations[] = { 150, 400, 400, 150, 150, 150, 150, 150 };
+int noteDurations[] = {
+  150, 150, 150, 75, 150,
+  150, 75, 150, 75, 75,
+  150, 75, 75, 150, 150, 55, 40,
+  150, 150, 150, 75, 150, 75, 75, 75, 75,
+  150, 75, 150, 75, 150, 40, 40
+};
 
 int thisNote=0;
 
@@ -62,7 +73,7 @@ ISR(TIMER1_COMPA_vect)        // interrupt service routine that wraps a user def
   noInterrupts();
   tone(11, melody[thisNote],noteDurations[thisNote]);
   thisNote++;
-  if(thisNote == 8){
+  if(thisNote == 33){
     thisNote=0;
   }
   interrupts();
