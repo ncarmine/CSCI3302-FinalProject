@@ -183,8 +183,14 @@ void loop() {
       else
       {
         sparki.moveStop();
-        state = PICK_UP;
-        //Xg=0; Yg=0; --> will set new goal in another stateme
+        if(returned){
+          state = DROP_OFF;
+        }
+        else if(linewardBound){
+          linewardBound = false;
+          state = DETECT;
+        }
+        else {state = PICK_UP;}
       }
       break;
     }
