@@ -207,7 +207,12 @@ void loop() {
       /* Drop off Pokemon */
       sparki.gripperOpen();
       delay(3500);
-      state = DETECT;
+      returned = false;
+      Xg = Xline;
+      Yg = Yline;
+      Thetag = Thetaline;
+      linewardBound = true;
+      state = DRIVE;
       break;
     }
     case GO_HOME:{
