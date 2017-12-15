@@ -199,6 +199,7 @@ void loop() {
       sparki.gripperClose();
       delay(3500);
       sparki.gripperStop();
+      sparki.moveStop();
       state = GO_HOME;
       break;
     }
