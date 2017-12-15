@@ -217,8 +217,10 @@ void loop() {
     }
     case GO_HOME:{
       /*Set goal to Origin*/
-      Xg=0;
-      Yg=0;
+      Xg=0.15;
+      Yg=-0.25;
+      Thetag = 0.0; 
+      returned = true; 
       state = DRIVE;
       break;
     }
